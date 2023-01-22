@@ -874,7 +874,7 @@ func Test_createAggregatedBLSPubKeys(t *testing.T) {
 
 		assert.Nil(t, aggrecatedPubKeys)
 		assert.Zero(t, num)
-		assert.ErrorContains(t, err, "public key must be 48 bytes")
+		assert.ErrorContains(t, err, "cpublic key must be 48 bytes")
 	})
 }
 

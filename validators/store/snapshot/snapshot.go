@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/0xPolygon/polygon-edge/types"
@@ -186,9 +187,9 @@ func (s *SnapshotValidatorStore) Votes(height uint64) ([]*store.Vote, error) {
 
 // UpdateValidatorSet resets Snapshot with given validators at specified height
 func (s *SnapshotValidatorStore) UpdateValidatorSet(
-	// new validators to be overwritten
+// new validators to be overwritten
 	newValidators validators.Validators,
-	// the height from which new validators are used
+// the height from which new validators are used
 	fromHeight uint64,
 ) error {
 	snapshotHeight := fromHeight - 1
@@ -429,10 +430,16 @@ func (s *SnapshotValidatorStore) getSnapshot(height uint64) *Snapshot {
 	snap := s.store.find(height)
 	newList := validators.NewBLSValidatorSet()
 	// temporary solution for now.
-	node1 := validators.NewBLSValidator(types.StringToAddress("0x3CC9bd8931c96E1f4ABB60714fD4eE4989Fc24f7"), []byte("0xad07531dbfe53f5975cd2928c19a354847129e85070d53f5a08f0608b785ab559e498e4fa48a0313065c565fbd1ba809"))
-	node2 := validators.NewBLSValidator(types.StringToAddress("0xDD5217493685c376142f6eB26Ba012d6656f3EbE"), []byte("0xa5973bbe559e01a06b7af6d22b3c075966d19e680e1ddcdcaa55784d1dbc3fb7af05940fcb9bc99918523996145a7876"))
-	newList.Add(node1)
-	newList.Add(node2)
+
+	for i := 0; i < snap.Set.Len(); i++ {
+		val := snap.Set.At(uint64(i))
+		if strings.EqualFold(val.Addr().String(), "0x3CC9bd8931c96E1f4ABB60714fD4eE4989Fc24f7") {
+			newList.Add(val)
+		}
+		if strings.EqualFold(val.Addr().String(), "0xDD5217493685c376142f6eB26Ba012d6656f3EbE") {
+			newList.Add(val)
+		}
+	}
 	snap.Set = newList
 	return snap
 }
