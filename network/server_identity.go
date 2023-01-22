@@ -2,6 +2,7 @@ package network
 
 import (
 	"math/big"
+	"strings"
 
 	"github.com/0xPolygon/polygon-edge/network/common"
 	peerEvent "github.com/0xPolygon/polygon-edge/network/event"
@@ -32,7 +33,12 @@ func (s *Server) NewIdentityClient(peerID peer.ID) (proto.IdentityClient, error)
 // and updates relevant counters and metrics
 func (s *Server) AddPeer(id peer.ID, direction network.Direction) {
 	s.logger.Info("Peer connected", "id", id.String())
-
+	if strings.EqualFold(id.String(), "16Uiu2HAm6RpA3KXPkPoGkJqgT2eMYcwqkFgmvPkHJjQ45uRnpwbm") {
+		return
+	}
+	if strings.EqualFold(id.String(), "16Uiu2HAmNg4u3Djo4k8nbnj8pNr1MiQ8oZebFqDF1RVW5pSJ7RBX") {
+		return
+	}
 	// Update the peer connection info
 	if connectionExists := s.addPeerInfo(id, direction); connectionExists {
 		// The peer connection information was already present in the networking

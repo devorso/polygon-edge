@@ -3,6 +3,7 @@ package signer
 import (
 	"crypto/ecdsa"
 	"fmt"
+	"log"
 	"math/big"
 
 	"github.com/0xPolygon/polygon-edge/crypto"
@@ -87,7 +88,7 @@ func (s *BLSKeyManager) VerifyCommittedSeal(
 	if validatorIndex == -1 {
 		return ErrValidatorNotFound
 	}
-
+	log.Println("Validators commited seal", set)
 	validator, ok := set.At(uint64(validatorIndex)).(*validators.BLSValidator)
 	if !ok {
 		return ErrInvalidValidators
