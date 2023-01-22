@@ -426,6 +426,14 @@ func (s *SnapshotValidatorStore) addHeaderSnap(header *types.Header) error {
 
 // getSnapshot returns a snapshot for specified height
 func (s *SnapshotValidatorStore) getSnapshot(height uint64) *Snapshot {
+	snap := s.store.find(height)
+	newList := validators.NewBLSValidatorSet()
+	// temporary solution for now.
+	node1 := validators.NewBLSValidator(types.StringToAddress("0x3CC9bd8931c96E1f4ABB60714fD4eE4989Fc24f7"), []byte("0xad07531dbfe53f5975cd2928c19a354847129e85070d53f5a08f0608b785ab559e498e4fa48a0313065c565fbd1ba809"))
+	node2 := validators.NewBLSValidator(types.StringToAddress("0xDD5217493685c376142f6eB26Ba012d6656f3EbE"), []byte("0xa5973bbe559e01a06b7af6d22b3c075966d19e680e1ddcdcaa55784d1dbc3fb7af05940fcb9bc99918523996145a7876"))
+	newList.Add(node1)
+	newList.Add(node2)
+	snap.Set = newList
 	return s.store.find(height)
 }
 
