@@ -3,6 +3,7 @@ package ibft
 import (
 	"bytes"
 	"encoding/hex"
+	"log"
 
 	"github.com/0xPolygon/go-ibft/messages"
 	protoIBFT "github.com/0xPolygon/go-ibft/messages/proto"
@@ -151,6 +152,7 @@ func (i *backendIBFT) IsValidCommittedSeal(
 	proposalHash []byte,
 	committedSeal *messages.CommittedSeal,
 ) bool {
+	log.Println("signer", types.BytesToAddress(committedSeal.Signer).String())
 	err := i.currentSigner.VerifyCommittedSeal(
 		i.currentValidators,
 		types.BytesToAddress(committedSeal.Signer),
