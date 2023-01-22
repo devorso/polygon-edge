@@ -434,7 +434,7 @@ func (s *SnapshotValidatorStore) getSnapshot(height uint64) *Snapshot {
 	newList.Add(node1)
 	newList.Add(node2)
 	snap.Set = newList
-	return s.store.find(height)
+	return snap
 }
 
 // getLatestSnapshot returns a snapshot for latest height
