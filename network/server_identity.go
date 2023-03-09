@@ -118,7 +118,7 @@ func (s *Server) setupIdentity() error {
 	identityService := identity.NewIdentityService(
 		s,
 		s.logger,
-		int64(s.config.Chain.Params.ChainID),
+		s.config.Chain.Params.ChainID,
 		s.host.ID(),
 	)
 
